@@ -1,5 +1,5 @@
 theme: jekyll-theme-minimal
 title: BNS
 description: A system to replace the current top level DNS system offering increased scalability, security and robustness. 
-logo: ../BNS/docs/logo.jpg
+logo: ../BNS/blob/master/docs/logo.jpg
 show_downloads: true
