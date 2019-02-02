@@ -1,5 +1,7 @@
 # Blockchain Name Service
 
+[BNS git Page!](https://tusharadi25.github.io/BNS/)
+
 installation steps
 1. Install IPFS
     https://docs.ipfs.io/introduction/install/

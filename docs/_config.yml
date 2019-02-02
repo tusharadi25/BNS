@@ -1,5 +1,5 @@
 theme: jekyll-theme-minimal
 title: BNS
 description: A system to replace the current top level DNS system offering increased scalability, security and robustness. 
-logo: https://raw.githubusercontent.com/tusharadi25/BNS/master/docs/logo.jpg
+logo: /assets/img/logo.jpg
 show_downloads: true
