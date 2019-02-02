@@ -1,0 +1,4 @@
+uuid
+ipfsapi
+requests
+flask
