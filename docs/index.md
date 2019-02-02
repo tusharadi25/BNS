@@ -3,8 +3,8 @@
 installation steps
 1. Install IPFS
     https://docs.ipfs.io/introduction/install/
-1. pip install -r req.txt
-1.  ipfs daemon
+1. > pip install -r req.txt
+1.  > ipfs daemon
 
     ```
     BNS > ipfs daemon
@@ -22,5 +22,8 @@ installation steps
     Gateway (readonly) server listening on /ip4/127.0.0.1/tcp/8080
     Daemon is ready
     ```
-1. python app.py
+1. > python app.py
+
+default port for application is 5000
+
 
