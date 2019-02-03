@@ -35,7 +35,8 @@ Install IPFS -->
     Gateway (readonly) server listening on /ip4/127.0.0.1/tcp/8080
     Daemon is ready
     ```
-1. > python app.py
+1. Run server
+    > python app.py
 
 default port for application is 5000
 
