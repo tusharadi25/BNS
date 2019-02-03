@@ -49,7 +49,7 @@ default port for application is 5000
 
 ## Features
 
-![features](https://github.com/tusharadi25/BNS/assets/img/features.jpg)
+![features](https://raw.githubusercontent.com/tusharadi25/BNS/master/docs/assets/img/features.jpg)
 
 
 ## Versioning
