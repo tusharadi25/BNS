@@ -1,4 +1,6 @@
 uuid
+msgpack
+python-dotenv
 ipfsapi
 requests
 flask
