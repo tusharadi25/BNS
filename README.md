@@ -2,7 +2,15 @@
 
 A system to replace the current top level DNS system offering increased scalability, security and robustness. 
 
-![](https://img.shields.io/github/repo-size/tusharadi25/BNS.svg?style=flat)  &nbsp; &nbsp; ![](https://img.shields.io/librariesio/github/tusharadi25/BNS.svg?style=flat)
+![](https://img.shields.io/github/repo-size/tusharadi25/BNS.svg?style=flat)  &nbsp; &nbsp; 
+![](https://img.shields.io/librariesio/github/tusharadi25/BNS.svg?style=flat) &nbsp; &nbsp;
+![](https://img.shields.io/github/license/tusharadi25/BNS.svg?style=flat)&nbsp; &nbsp;
+![](https://img.shields.io/pypi/pyversions/ipfsapi.svg?style=flat)
+&nbsp; &nbsp;
+![](https://img.shields.io/website-up-down-green-red/https/tusharadi25.github.io/BNS.svg?style=flat) &nbsp; &nbsp; 
+![](https://img.shields.io/github/commit-activity/m/tusharadi25/BNS.svg?style=flat)
+
+
 
 [BNS git Page!](https://tusharadi25.github.io/BNS/)
 
