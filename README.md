@@ -2,9 +2,12 @@
 
 A system to replace the current top level DNS system offering increased scalability, security and robustness. 
 
+![](https://img.shields.io/github/repo-size/tusharadi25/BNS.svg?style=flat)  &nbsp; &nbsp; ![](https://img.shields.io/librariesio/github/tusharadi25/BNS.svg?style=flat)
+
 [BNS git Page!](https://tusharadi25.github.io/BNS/)
 
 
+  
 ## Getting Started
 
 These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See deployment for notes on how to deploy the project on a live system.
