@@ -5,10 +5,12 @@ from urllib.parse import urlparse
 from uuid import uuid4
 import ipfsapi
 import requests
-from flask import Flask, jsonify, request
+from flask import Flask, jsonify, request, send_from_directory
 import json
 import os,sys
 import threading
+
+from _thread import start_new_thread
 
 def h(block):
     block_string = json.dumps(block, sort_keys=True).encode()
@@ -120,10 +122,11 @@ class Blockchain:
         guess_hash = hashlib.sha256(guess).hexdigest()
         return guess_hash[:4] == "0000"
 
+
+
 app = Flask(__name__)
 blockchain = Blockchain()
 api=ipfsapi.connect('127.0.0.1',5001)
-
 
 @app.route('/mine', methods=['GET'])
 def mine():
@@ -171,7 +174,7 @@ def full_chain():
 
 @app.route('/nodes/register', methods=['GET'])
 def register_nodes():
-    res = api.add('connection')
+    res = api.add('conn')
     h=res['Hash']
     def find():
         os.system("ipfs dht findprovs "+h+"> peers")
@@ -231,6 +234,27 @@ def consensus():
 
     return jsonify(response), 200
 
+from tkinter import Tk, Label, Button
+
+class MyFirstGUI:
+    def __init__(self, master):
+        self.master = master
+        master.title("BNS")
+        self.label = Label(master, text="Blockchain Name Service")
+        self.label.pack()
+        self.greet_button = Button(master, text="ID", command=self.greet)
+        self.greet_button.pack()
+
+        self.close_button = Button(master, text="Close", command=master.quit)
+        self.close_button.pack()
+
+    def greet(self):
+        print(api.id()['ID'])
+def UI(a):
+    root = Tk()
+    my_gui = MyFirstGUI(root)
+    root.mainloop()
+
 
 if __name__ == '__main__':
     from argparse import ArgumentParser
@@ -239,5 +263,7 @@ if __name__ == '__main__':
     parser.add_argument('-p', '--port', default=5000, type=int, help='port to listen on')
     args = parser.parse_args()
     port = args.port
+    start_new_thread(UI,(0,))
 
     app.run(host='0.0.0.0', port=port)
+    
