@@ -1,20 +1,15 @@
-import hashlib
-import json
-import time
+import hashlib, json, time
 from urllib.parse import urlparse
 from uuid import uuid4
-import ipfsapi
-import requests
+import ipfsapi, requests
 from flask import Flask, jsonify, request, send_from_directory
-import json
-import os,sys
-import threading
-
+import os,sys, threading
 from _thread import start_new_thread
 
 def h(block):
     block_string = json.dumps(block, sort_keys=True).encode()
     return hashlib.sha256(block_string).hexdigest()
+
 class Blockchain:
     def __init__(self):
         self.chain=[]
@@ -126,17 +121,17 @@ class Blockchain:
 
 app = Flask(__name__)
 blockchain = Blockchain()
-api=ipfsapi.connect('127.0.0.1',5001)
+#api=ipfsapi.connect('127.0.0.1',5001)
 
 @app.route('/mine', methods=['GET'])
 def mine():
     # We run the proof of work algorithm to get the next proof...
     last_block = blockchain.last_block
     proof = blockchain.proof_of_work(last_block)
-    ipfsid=api.id()['ID']
+    #ipfsid=api.id()['ID']
     blockchain.new_transaction(
         sender="0",
-        recipient=ipfsid,
+       # recipient=ipfsid,
         domain='www.bns.com',
         zoneHash='0000'
     )
@@ -235,26 +230,7 @@ def consensus():
     return jsonify(response), 200
 
 from tkinter import Tk, Label, Button
-
-class MyFirstGUI:
-    def __init__(self, master):
-        self.master = master
-        master.title("BNS")
-        self.label = Label(master, text="Blockchain Name Service")
-        self.label.pack()
-        self.greet_button = Button(master, text="ID", command=self.greet)
-        self.greet_button.pack()
-
-        self.close_button = Button(master, text="Close", command=master.quit)
-        self.close_button.pack()
-
-    def greet(self):
-        print(api.id()['ID'])
-def UI(a):
-    root = Tk()
-    my_gui = MyFirstGUI(root)
-    root.mainloop()
-
+from UI import *
 
 if __name__ == '__main__':
     from argparse import ArgumentParser
