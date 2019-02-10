@@ -1,0 +1,20 @@
+{
+    "$origin": "1.0.0.127.in-addr.arpa.",
+    "$ttl": 3600,
+    "soa": {
+        "mname": "1.0.0.127.in-addr.arpa.",
+        "rname": "1.0.0.127.in-addr.arpa.",
+        "serial": "{time}",
+        "refresh": 3600,
+        "retry": 600,
+        "expire": 604800,
+        "minimum": 86400
+    },
+    "ns": [
+        { "host": "1.0.0.127.in-addr.arpa." },
+        { "host": "1.0.0.127.in-addr.arpa." }
+    ],
+    "a": [
+        { "name": "@", "ttl": 400, "value": "127.0.0.1" }
+    ]
+}
