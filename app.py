@@ -2,7 +2,7 @@ import hashlib, json, time
 from urllib.parse import urlparse
 from uuid import uuid4
 import ipfsapi, requests
-from flask import Flask, jsonify, request, send_from_directory
+from flask import Flask, jsonify, request, send_from_directory, Response
 import os,sys, threading
 from _thread import start_new_thread
 
@@ -121,17 +121,18 @@ class Blockchain:
 
 app = Flask(__name__)
 blockchain = Blockchain()
-#api=ipfsapi.connect('127.0.0.1',5001)
+api=ipfsapi.connect('127.0.0.1',5001)
+print(api)
 
 @app.route('/mine', methods=['GET'])
 def mine():
     # We run the proof of work algorithm to get the next proof...
     last_block = blockchain.last_block
     proof = blockchain.proof_of_work(last_block)
-    #ipfsid=api.id()['ID']
+    ipfsid=api.id()['ID']
     blockchain.new_transaction(
         sender="0",
-       # recipient=ipfsid,
+        recipient=ipfsid,
         domain='www.bns.com',
         zoneHash='0000'
     )
@@ -229,8 +230,10 @@ def consensus():
 
     return jsonify(response), 200
 
-from tkinter import Tk, Label, Button
-from UI import *
+@app.route('/', methods=['GET'])
+def serve():
+    content=open("index.html").read()
+    return Response(content, mimetype="text/html")
 
 if __name__ == '__main__':
     from argparse import ArgumentParser
@@ -239,7 +242,5 @@ if __name__ == '__main__':
     parser.add_argument('-p', '--port', default=5000, type=int, help='port to listen on')
     args = parser.parse_args()
     port = args.port
-    start_new_thread(UI,(0,))
-
     app.run(host='0.0.0.0', port=port)
     
