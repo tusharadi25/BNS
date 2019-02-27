@@ -5,20 +5,26 @@
         <script src="https://unpkg.com/ipfs-http-client/dist/index.min.js"></script>
         <script src="https://unpkg.com/ipfs-http-client/dist/index.js"></script>
         <script type="text/javascript">
+            const ipfs = window.IpfsHttpClient('localhost', '5001');
+            console.log(ipfs)
+            ipfs.version().then((res) => {
+                document.getElementById("status").src="/assets/online.png";
+                console.log("IPFS Online");
+            }).catch(() => {
+                document.getElementById("status").src="/assets/offline.png";
+                console.log("IPFS Offline");
+            });
             function c(){
-                const ipfs = window.IpfsHttpClient('localhost', '5001');
-                console.log(ipfs)
                 ipfs.id().then((res) => {
-                    ipfs.version().then((v)=>{
-                        document.getElementById("main").innerHTML= 'Node ID: '+res["id"]+
-                        '<br> version:'+v['version'];
-                    });
+                    document.getElementById("main").innerHTML= 'Node ID: '+res["id"];
                 });
             }
+            
         </script>
     </head>
     <body>
+        <img id="status" width="20"></img>
         <p id="main"></p>
-        <button onclick="c()">print</button>
+        <button onclick="c()">Node ID</button>
     </body>
 </html>

@@ -117,9 +117,8 @@ class Blockchain:
         guess_hash = hashlib.sha256(guess).hexdigest()
         return guess_hash[:4] == "0000"
 
-
-
-app = Flask(__name__)
+app = Flask(__name__, static_folder=os.getcwd())
+path=os.getcwd()
 blockchain = Blockchain()
 api=ipfsapi.connect('127.0.0.1',5001)
 print(api)
@@ -234,6 +233,32 @@ def consensus():
 def serve():
     content=open("index.html").read()
     return Response(content, mimetype="text/html")
+
+
+def get_file(filename):  # pragma: no cover
+    try:
+        src = os.path.join(path, filename)
+        # Figure out how flask returns static files
+        # Tried:
+        # - render_template
+        # - send_file
+        # This should not be so non-obvious
+        return open(src).read()
+    except IOError as exc:
+        return str(exc)
+
+@app.route('/<path:path>')
+def get_resource(path):  # pragma: no cover
+    mimetypes = {
+        ".css": "text/css",
+        ".html": "text/html",
+        ".js": "application/javascript",
+    }
+    complete_path = os.path.join(path, path)
+    ext = os.path.splitext(path)[1]
+    mimetype = mimetypes.get(ext, "text/html")
+    content = get_file(complete_path)
+    return Response(content, mimetype=mimetype)
 
 if __name__ == '__main__':
     from argparse import ArgumentParser
