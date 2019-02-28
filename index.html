@@ -11,7 +11,6 @@
                 document.getElementById("status").src="/assets/online.png";
                 console.log("IPFS Online");
             }).catch(() => {
-                document.getElementById("status").src="/assets/offline.png";
                 console.log("IPFS Offline");
             });
             function c(){
@@ -23,7 +22,7 @@
         </script>
     </head>
     <body>
-        <img id="status" width="20"></img>
+        <img id="status" width="100" alt="status" src="/assets/offline.png"></img>
         <p id="main"></p>
         <button onclick="c()">Node ID</button>
     </body>

@@ -1,8 +1,8 @@
 import hashlib, json, time
 from urllib.parse import urlparse
 from uuid import uuid4
-import ipfsapi, requests
-from flask import Flask, jsonify, request, send_from_directory, Response
+import ipfsapi
+from flask import Flask, jsonify, request, send_from_directory, Response, send_file
 import os,sys, threading
 from _thread import start_new_thread
 
@@ -118,7 +118,7 @@ class Blockchain:
         return guess_hash[:4] == "0000"
 
 app = Flask(__name__, static_folder=os.getcwd())
-path=os.getcwd()
+p=os.getcwd()
 blockchain = Blockchain()
 api=ipfsapi.connect('127.0.0.1',5001)
 print(api)
@@ -235,34 +235,13 @@ def serve():
     return Response(content, mimetype="text/html")
 
 
-def get_file(filename):  # pragma: no cover
-    try:
-        src = os.path.join(path, filename)
-        # Figure out how flask returns static files
-        # Tried:
-        # - render_template
-        # - send_file
-        # This should not be so non-obvious
-        return open(src).read()
-    except IOError as exc:
-        return str(exc)
-
 @app.route('/<path:path>')
 def get_resource(path):  # pragma: no cover
-    mimetypes = {
-        ".css": "text/css",
-        ".html": "text/html",
-        ".js": "application/javascript",
-    }
-    complete_path = os.path.join(path, path)
-    ext = os.path.splitext(path)[1]
-    mimetype = mimetypes.get(ext, "text/html")
-    content = get_file(complete_path)
-    return Response(content, mimetype=mimetype)
+    complete_path = os.path.join(p, path)
+    return send_file(complete_path)
 
 if __name__ == '__main__':
     from argparse import ArgumentParser
-
     parser = ArgumentParser()
     parser.add_argument('-p', '--port', default=5000, type=int, help='port to listen on')
     args = parser.parse_args()
