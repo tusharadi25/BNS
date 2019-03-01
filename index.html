@@ -18,12 +18,73 @@
                     document.getElementById("main").innerHTML= 'Node ID: '+res["id"];
                 });
             }
-            
+            function reg(){
+                var x = document.forms["Reg"]["Domain"].value;
+                var y = document.forms["Reg"]["Zonefile"].value;
+                    if (x == "" || y=="") {
+                        alert("All Fileds must be filled");
+                        return false;
+                    }
+                    if (/^[a-zA-Z0-9][a-zA-Z0-9-]{1,61}[a-zA-Z0-9](?:\.[a-zA-Z]{2,})+$/.test(x)) {
+                        alert("Valid Domain Name");
+                        return true;
+                    } else {
+                        alert("Enter Valid Domain Name");
+                        return false;
+                    }
+                    return true;
+            }
+            function trans(){
+                var x = document.forms["Trans"]["Domain"].value;
+                var y = document.forms["Trans"]["Zonefile"].value;
+                    if (x == "" || y=="") {
+                        alert("All Fileds must be filled");
+                        return false;
+                    }
+                    if (/^[a-zA-Z0-9][a-zA-Z0-9-]{1,61}[a-zA-Z0-9](?:\.[a-zA-Z]{2,})+$/.test(x)) {
+                        alert("Valid Domain Name");
+                        return true;
+                    } else {
+                        alert("Enter Valid Domain Name");
+                        return false;
+                    }
+                return true;
+            }
         </script>
     </head>
     <body>
-        <img id="status" width="100" alt="status" src="/assets/offline.png"></img>
-        <p id="main"></p>
-        <button onclick="c()">Node ID</button>
+		<img width="100" style="border-radius: 10px;" alt="logo" src="/assets/logo.jpg" /><h1 >Blockchain Name Service</h1>
+        <div style="position:absolute; top:200px; left:30px;">
+            <h4>Registration form</h4>
+            <form name="Reg" onsubmit="return reg()" method="post" action="/reg">
+                Domain Name:
+                <input type="text" name="Domain" /><br>
+                <input type="hidden" name="Sender" value="BNS"/>
+                <input type="hidden" name="Reciver" value="IPFSid"/>
+                Zonefile :
+                <input  type="file" name="Zonefile"/><br>
+                <input type="submit" value="Register"/>
+            </form>
+        </div>
+        <div style="position:absolute; top:200px; right:500px;">
+            <h4>Domain Transfer</h4>
+            <form name="Trans" onsubmit="return  trans()" method="post" action="/trans">
+                Domain Name:
+                <input type="text" name="Domain" /><br>
+                Sender:
+                <input type="text" name="sender" /><br>
+                Reciver:<input name="reciver"/><br>
+                Zonefile :
+                <input  type="file" name="Zonefile"/><br>
+                <input type="submit" value="Transfer"/>
+            </form>
+        </div>
+        <div style="position:absolute; top:200px; right:100px;width:200px;word-wrap: break-word;">
+            <h4>Node Info</h4>
+            <p id="main" ></p>
+            <button onclick="c()">Node ID</button>
+        </div>
+        <img id="status" width="50" alt="status" style="position:absolute; top:10px; right:10px;" src="/assets/offline.png"></img>
+        
     </body>
 </html>

@@ -171,6 +171,15 @@ def full_chain():
     return jsonify(response), 200
 
 
+@app.route('/me', methods=['GET'])
+def info():
+    response = {
+        'id': "abcd",
+        'length': "abc",
+    }
+    return jsonify(response), 200
+
+
 @app.route('/nodes/register', methods=['GET'])
 def register_nodes():
     res = api.add('conn')
@@ -235,18 +244,21 @@ def consensus():
 
     return jsonify(response), 200
 
-
 @app.route('/', methods=['GET'])
 def serve():
     content = open("index.html").read()
     return Response(content, mimetype="text/html")
 
 
-@app.route('/<path:path>')
+@app.route('/assets/<path:path>')
 def get_resource(path):
-    complete_path = os.path.join(p, path)
+    complete_path = os.path.join(p+"/assets", path)
     return send_file(complete_path)
 
+@app.errorhandler(404)
+def page_not_found(e):
+    # note that we set the 404 status explicitly
+    return send_file(os.path.join(p+"/assets", "404.jpg")), 404
 
 if __name__ == '__main__':
     from argparse import ArgumentParser
