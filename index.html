@@ -4,21 +4,19 @@
         <title>BNS</title>
         <link rel="icon" href="/assets/favicon.ico" type="image/icon" />
         <script src="https://unpkg.com/ipfs-http-client/dist/index.min.js"></script>
-        <script src="https://unpkg.com/ipfs-http-client/dist/index.js"></script>
         <script type="text/javascript">
             const ipfs = window.IpfsHttpClient('localhost', '5001');
             console.log(ipfs)
             ipfs.version().then((res) => {
                 document.getElementById("status").src="/assets/online.png";
+                document.getElementById("version").innerHTML=res["version"]
                 console.log("IPFS Online");
             }).catch(() => {
                 console.log("IPFS Offline");
             });
-            function c(){
-                ipfs.id().then((res) => {
-                    document.getElementById("main").innerHTML= 'Node ID: '+res["id"];
-                });
-            }
+            ipfs.id().then((res) => {
+                    document.getElementById("id").innerHTML=res["id"];
+            });
             function reg(){
                 var x = document.forms["Reg"]["Domain"].value;
                 var y = document.forms["Reg"]["Zonefile"].value;
@@ -27,7 +25,6 @@
                         return false;
                     }
                     if (/^[a-zA-Z0-9][a-zA-Z0-9-]{1,61}[a-zA-Z0-9](?:\.[a-zA-Z]{2,})+$/.test(x)) {
-                        alert("Valid Domain Name");
                         return true;
                     } else {
                         alert("Enter Valid Domain Name");
@@ -43,7 +40,6 @@
                         return false;
                     }
                     if (/^[a-zA-Z0-9][a-zA-Z0-9-]{1,61}[a-zA-Z0-9](?:\.[a-zA-Z]{2,})+$/.test(x)) {
-                        alert("Valid Domain Name");
                         return true;
                     } else {
                         alert("Enter Valid Domain Name");
@@ -52,40 +48,113 @@
                 return true;
             }
         </script>
+        <style>
+            .frame{
+                background-color:rgba(20,20,30,0.5);
+                padding: 5px;
+                border-radius: 20px;
+            }
+            video {
+                position: fixed;
+                right: 0; 
+                bottom: 0;
+                min-width: 100%; 
+                min-height: 100%;
+                width: auto; 
+                height: auto;
+                z-index: -100;
+                }
+            .wrapper {
+                width:100%;
+                height:97.5%;
+                position: absolute;
+                padding:0px;
+                background-color:rgba(0,0,0,0.5);
+                -webkit-filter: blur(4px);
+                filter: blur(4px);
+                z-index:-10;
+            }
+        </style>
     </head>
-    <body>
-		<p style="font-size: 50px;"><img width="100" style="border-radius: 10px;" alt="logo" src="/assets/logo.jpg" /> &nbsp;Blockchain Name Service</p>
-        <div style="position:absolute; top:200px; left:30px;">
+    <body style="background-attachment:fixed;background-size:cover;margin:0; padding:0;">
+        <div class="wrapper">
+            <video autoplay muted loop id="myVideo" id="video-background">
+                    <source src="assets/bg.mp4" type="video/mp4">
+            </video>
+        </div>
+        <font color="white">
+		<div style="position:absolute;top:15px;left:20px;text-align:centre;"><img width="150" style="border-radius: 10px;" alt="logo" src="/assets/logo.jpg" /></div>
+        <p style="position:absolute;top:10px;left:170px;text-align:centre;font-size:50px">&nbsp;Blockchain Name Service</p>
+        <div style="position:absolute; top:200px; left:30px;text-decoration-color: white;width:350" class="frame">
             <h4>Registration form</h4>
+            <table>
             <form name="Reg" onsubmit="return reg()" method="post" action="/reg">
-                Domain Name:
-                <input type="text" name="Domain" /><br>
-                <input type="hidden" name="Sender" value="BNS"/>
-                <input type="hidden" name="Reciver" value="IPFSid"/>
-                Zonefile :
-                <input  type="file" name="Zonefile"/><br>
-                <input type="submit" value="Register"/>
+                <tr>
+                    <td>Domain Name:&nbsp;</td>
+                    <td><input type="text" name="Domain" /></td>
+                </tr>
+                    <input type="hidden" name="Sender" value="BNS"/>
+                    <input type="hidden" name="Reciver" value="IPFSid"/>
+                <tr>
+                    <td>Zonefile :</td>
+                    <td><input  type="file" name="Zonefile"/></td>
+                </tr>
+                <tr>
+                    <td></td><td><input type="submit" value="Register"/></td>
+                </tr>
             </form>
+        </table>
         </div>
-        <div style="position:absolute; top:200px; right:500px;">
+        <div style="position:absolute; top:200px; right:530px;" class="frame">
             <h4>Domain Transfer</h4>
+            <table>
             <form name="Trans" onsubmit="return  trans()" method="post" action="/trans">
-                Domain Name:
-                <input type="text" name="Domain" /><br>
-                Sender:
-                <input type="text" name="sender" /><br>
-                Reciver:<input name="reciver"/><br>
-                Zonefile :
-                <input  type="file" name="Zonefile"/><br>
-                <input type="submit" value="Transfer"/>
+               <tr>
+                   <td> Domain Name: &nbsp;</td>
+                   <td><input type="text" name="Domain" /></td>
+               </tr>
+               <tr>
+                    <td>Sender:</td>
+                    <td><input type="text" name="sender" /></td>
+               </tr>
+               <tr>
+                    <td>Reciver:</td><td><input name="reciver"/></td>    
+               </tr>
+               <tr>
+                    <td>Zonefile :</td>
+                    <td><input  type="file" name="Zonefile"/></td>
+               </tr>
+               <tr>
+                    <td></td><td><input type="submit" value="Transfer"/></td>
+                </tr>
             </form>
+        </table>
         </div>
-        <div style="position:absolute; top:200px; right:100px;width:200px;word-wrap: break-word;">
-            <h4>Node Info</h4>
-            <p id="main" ></p>
-            <button onclick="c()">Node ID</button>
+        <div style="position:absolute; top:200px; right:100px;word-wrap: break-word;" class="frame">
+            <h4>Basic Info</h4>
+            <table style>
+                <tr>
+                    <td>Node ID: &nbsp;</td>
+                    <td><div style="width:200px;word-wrap:break-word;word-spacing:0px;" id="id" ></div></td>
+                </tr>
+                <tr>
+                    <td>IPFS version: &nbsp;</td>
+                    <td><div style="width:200px;word-wrap:break-word;word-spacing:0px;" id="version" ></div></td>
+                </tr>
+                <tr>
+                    <td>Peers Connected: &nbsp;</td>
+                    <td><div style="width:200px;word-wrap:break-word;word-spacing:0px;" id="peer" ></div></td>
+                </tr>
+                <tr>
+                    <td>Domains Registered: &nbsp;</td>
+                    <td><div style="width:200px;word-wrap:break-word;word-spacing:0px;" id="domain" ></div></td>
+                </tr>
+            </table>
         </div>
-        <img id="status" width="50" alt="status" style="position:absolute; top:10px; right:10px;" src="/assets/offline.png"></img>
-        
+        <p style="position:absolute; top:10px; left:1000px;" id="dp" >Domain points: 5</p>
+        <p style="position:absolute; top:10px; right:15px;" ><img id="status" width="50" alt="status" src="/assets/offline.png"></img><br>IPFS<p>
+        </font>
+        <script>
+        </script>
     </body>
 </html>
