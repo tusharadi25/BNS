@@ -17,7 +17,6 @@ def h(block):
     block_string = json.dumps(block, sort_keys=True).encode()
     return hashlib.sha256(block_string).hexdigest()
 
-
 class Blockchain:
     def __init__(self):
         self.chain = []
@@ -259,6 +258,20 @@ def get_resource(path):
 def page_not_found(e):
     # note that we set the 404 status explicitly
     return send_file(os.path.join(p+"/assets", "404.jpg")), 404
+
+
+@app.route("/site-map")
+def site_map():
+    resp={}
+    for rule in app.url_map.iter_rules():
+        temp=dict.fromkeys(rule.methods,'')
+        try:
+            temp.pop("OPTIONS")
+            temp.pop("HEAD")
+        except:
+            x=''
+        resp[str(rule)]=temp
+    return jsonify(resp),200
 
 if __name__ == '__main__':
     from argparse import ArgumentParser
