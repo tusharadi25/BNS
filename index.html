@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>BNS</title>
+        <title>Dashboard</title>
         <link rel="icon" href="/assets/favicon.ico" type="image/icon" />
         <script src="https://unpkg.com/ipfs-http-client/dist/index.min.js"></script>
         <script type="text/javascript">
@@ -14,6 +14,14 @@
             }).catch(() => {
                 console.log("IPFS Offline");
             });
+
+            var request = new Request('http://localhost:5000/me');
+            fetch(request).then((response)=>{
+                document.getElementById("dp").innerHTML="Domain points: "+response;
+                console.log(response)
+            });
+
+
             ipfs.id().then((res) => {
                     document.getElementById("id").innerHTML=res["id"];
             });
@@ -88,13 +96,11 @@
         <div style="position:absolute; top:200px; left:30px;text-decoration-color: white;width:350" class="frame">
             <h4>Registration form</h4>
             <table>
-            <form name="Reg" onsubmit="return reg()" method="post" action="/reg">
+            <form name="Reg" onsubmit="return reg()" method="POST" action="/reg" enctype = "multipart/form-data">
                 <tr>
-                    <td>Domain Name:&nbsp;</td>
+                    <td>Domain Name :&nbsp;</td>
                     <td><input type="text" name="Domain" /></td>
                 </tr>
-                    <input type="hidden" name="Sender" value="BNS"/>
-                    <input type="hidden" name="Reciver" value="IPFSid"/>
                 <tr>
                     <td>Zonefile :</td>
                     <td><input  type="file" name="Zonefile"/></td>
@@ -108,17 +114,17 @@
         <div style="position:absolute; top:200px; right:530px;" class="frame">
             <h4>Domain Transfer</h4>
             <table>
-            <form name="Trans" onsubmit="return  trans()" method="post" action="/trans">
+            <form name="Trans" onsubmit="return  trans()" method="post" action="/trans" enctype = "multipart/form-data">
                <tr>
-                   <td> Domain Name: &nbsp;</td>
+                   <td> Domain Name : &nbsp;</td>
                    <td><input type="text" name="Domain" /></td>
                </tr>
                <tr>
-                    <td>Sender:</td>
+                    <td>Sender :</td>
                     <td><input type="text" name="sender" /></td>
                </tr>
                <tr>
-                    <td>Reciver:</td><td><input name="reciver"/></td>    
+                    <td>Reciver :</td><td><input name="reciver"/></td>    
                </tr>
                <tr>
                     <td>Zonefile :</td>
@@ -134,24 +140,24 @@
             <h4>Basic Info</h4>
             <table style>
                 <tr>
-                    <td>Node ID: &nbsp;</td>
+                    <td>Node ID : &nbsp;</td>
                     <td><div style="width:200px;word-wrap:break-word;word-spacing:0px;" id="id" ></div></td>
                 </tr>
                 <tr>
-                    <td>IPFS version: &nbsp;</td>
+                    <td>IPFS version : &nbsp;</td>
                     <td><div style="width:200px;word-wrap:break-word;word-spacing:0px;" id="version" ></div></td>
                 </tr>
                 <tr>
-                    <td>Peers Connected: &nbsp;</td>
+                    <td>Peers Connected : &nbsp;</td>
                     <td><div style="width:200px;word-wrap:break-word;word-spacing:0px;" id="peer" ></div></td>
                 </tr>
                 <tr>
-                    <td>Domains Registered: &nbsp;</td>
+                    <td>Domains Registered : &nbsp;</td>
                     <td><div style="width:200px;word-wrap:break-word;word-spacing:0px;" id="domain" ></div></td>
                 </tr>
             </table>
         </div>
-        <p style="position:absolute; top:10px; left:1000px;" id="dp" >Domain points: 5</p>
+        <p style="position:absolute; top:10px; left:1000px;" id="dp" >Domain points: 0</p>
         <p style="position:absolute; top:10px; right:15px;" ><img id="status" width="50" alt="status" src="/assets/offline.png"></img><br>IPFS<p>
         </font>
         <script>

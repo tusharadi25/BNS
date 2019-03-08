@@ -9,6 +9,7 @@ from uuid import uuid4
 import ipfsapi
 from flask import (Flask, Response, jsonify, request, send_file,
                    send_from_directory)
+from werkzeug import secure_filename
 
 from _thread import start_new_thread
 
@@ -122,7 +123,7 @@ app = Flask(__name__, static_folder=os.getcwd())
 p = os.getcwd()
 blockchain = Blockchain()
 api = ipfsapi.connect('127.0.0.1', 5001)
-print(api)
+Dp=5
 
 
 @app.route('/mine', methods=['GET'])
@@ -134,7 +135,7 @@ def mine():
     blockchain.new_transaction(
         sender="0",
         recipient=ipfsid,
-        domain='www.bns.com',
+        domain='',
         zoneHash='0000'
     )
 
@@ -175,6 +176,7 @@ def info():
     response = {
         'id': "abcd",
         'length': "abc",
+        'credits':Dp
     }
     return jsonify(response), 200
 
@@ -259,12 +261,59 @@ def page_not_found(e):
     # note that we set the 404 status explicitly
     return send_file(os.path.join(p+"/assets", "404.jpg")), 404
 
+@app.route('/reg',methods=['POST'])
+def reg():
+    if request.method == 'POST':
+        values = dict(request.form)
+        domain=values['Domain']
+        if query(domain) is True:
+            zf = request.files['Zonefile']
+            values['name']=zf.filename
+            zf.save(os.path.join( 'zones', secure_filename(zf.filename)))
+            resp=api.add(os.path.join( 'zones', secure_filename(zf.filename)))
+            index=blockchain.new_transaction('QmUuFdREXrk2TMbRS8w7MpHWKMj3cnFEH8HVKhxXrT9D7R',
+                api.id()['ID'],
+                domain,
+                resp['Hash'])
+            return "Domain: "+domain+" Is Registered in BNS will be added to Block "+str(index),200
+        else:
+            return "Domain Already exist",200
+
+
+@app.route('/trans',methods=['POST'])
+def trans():
+    if request.method == 'POST':
+        values = dict(request.form)
+        domain=values['Domain']
+        if query(domain) is True:
+            zf = request.files['Zonefile']
+            values['name']=zf.filename
+            zf.save(os.path.join( 'zones', secure_filename(zf.filename)))
+            resp=api.add(os.path.join( 'zones', secure_filename(zf.filename)))
+            index=blockchain.new_transaction(values['sender'],
+                values['reciver'],
+                domain,
+                resp['Hash'])
+            return "Domain: "+domain+" Is Registered in BNS will be added to Block "+str(index),200
+        else:
+            return "Domain Already exist",200
+
+
+def query(domain):
+    print(domain)
+    for block in blockchain.chain:
+        t=block['transactions']
+        if str(t).find(domain) is -1:
+            return True
+        else:
+            return False
+
 
 @app.route("/site-map")
 def site_map():
     resp={}
     for rule in app.url_map.iter_rules():
-        temp=dict.fromkeys(rule.methods,'')
+        temp=dict.fromkeys(rule.methods,'')   
         try:
             temp.pop("OPTIONS")
             temp.pop("HEAD")
