@@ -5,3 +5,4 @@ ipfsapi
 requests
 flask
 werkzeug
+objectpath

@@ -1,11 +1,17 @@
-import socket, glob, json
-import os,ipfsapi
+import socket
+import glob
+import json
+import requests
+import os
+import ipfsapi
+import objectpath as op
 
 port = 53
 ip = '127.0.0.1'
 
 sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 sock.bind((ip, port))
+
 
 def load_zones():
 
@@ -20,7 +26,9 @@ def load_zones():
 
     return jsonzone
 
+
 zonedata = load_zones()
+
 
 def getflags(flags):
 
@@ -32,8 +40,8 @@ def getflags(flags):
     QR = '1'
 
     OPCODE = ''
-    for bit in range(1,5):
-        OPCODE += str(ord(byte1)&(1<<bit))
+    for bit in range(1, 5):
+        OPCODE += str(ord(byte1) & (1 << bit))
 
     AA = '1'
 
@@ -50,6 +58,7 @@ def getflags(flags):
     RCODE = '0000'
 
     return int(QR+OPCODE+AA+TC+RD, 2).to_bytes(1, byteorder='big')+int(RA+Z+RCODE, 2).to_bytes(1, byteorder='big')
+
 
 def getquestiondomain(data):
 
@@ -81,25 +90,41 @@ def getquestiondomain(data):
 
     return (domainparts, questiontype)
 
+
 def query(domain):
-    hash="QmWhxg9eRYPpE3biJVUxM9f67rAk8CALiwnjxkVFTLv5Vt"
+    hash = "QmWhxg9eRYPpE3biJVUxM9f67rAk8CALiwnjxkVFTLv5Vt"
+    response = requests.get('http://localhost:5000/chain')
+    response = response.content.decode()
+    response = eval(response)
+    tree_obj = op.Tree(response["chain"])
+    blocks = list(tree_obj.execute('$..transactions'))
+    blocks.pop(0)
+    for block in blocks:
+        try:
+            if str(block['domain']) == str(domain):
+                hash = str(block['zoneHash'])
+                return hash
+        except:
+            print(end='')
     return hash
+
 
 def getzone(domain):
     global zonedata
 
     zone_name = '.'.join(domain)
     try:
-        x=zonedata[zone_name]
+        x = zonedata[zone_name]
     except:
-        QmHash=query(zone_name)
+        QmHash = query(zone_name)
         api = ipfsapi.connect('127.0.0.1', 5001)
-        z=api.cat(QmHash)
-        with open(os.path.join(os.getcwd(),'zones',zone_name+'zone'), "w") as f:
+        z = api.cat(QmHash)
+        with open(os.path.join(os.getcwd(), 'zones', zone_name+'zone'), "w") as f:
             f.write(z.decode("utf-8"))
         zonedata = load_zones()
-        x=zonedata[zone_name]
+        x = zonedata[zone_name]
     return x
+
 
 def getrecs(data):
     domain, questiontype = getquestiondomain(data)
@@ -110,6 +135,7 @@ def getrecs(data):
     zone = getzone(domain)
 
     return (zone[qt], qt, domain)
+
 
 def buildquestion(domainname, rectype):
     qbytes = b''
@@ -128,6 +154,7 @@ def buildquestion(domainname, rectype):
 
     return qbytes
 
+
 def rectobytes(domainname, rectype, recttl, recval):
 
     rbytes = b'\xc0\x0c'
@@ -145,6 +172,7 @@ def rectobytes(domainname, rectype, recttl, recval):
         for part in recval.split('.'):
             rbytes += bytes([int(part)])
     return rbytes
+
 
 def buildresponse(data):
 
@@ -177,7 +205,8 @@ def buildresponse(data):
     dnsquestion = buildquestion(domainname, rectype)
 
     for record in records:
-        dnsbody += rectobytes(domainname, rectype, record["ttl"], record["value"])
+        dnsbody += rectobytes(domainname, rectype,
+                              record["ttl"], record["value"])
 
     return dnsheader + dnsquestion + dnsbody
 

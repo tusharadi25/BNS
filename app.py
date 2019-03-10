@@ -10,6 +10,7 @@ import ipfsapi
 from flask import (Flask, Response, jsonify, request, send_file,
                    send_from_directory)
 from werkzeug import secure_filename
+import objectpath as op
 
 
 def h(block):
@@ -187,6 +188,7 @@ def info():
 def register_nodes():
     res = api.add('conn')
     h = res['Hash']
+
     def find():
         os.system("ipfs dht findprovs "+h+"> peers")
     t1 = threading.Thread(target=find)
@@ -264,15 +266,17 @@ def page_not_found(e):
 
 
 def query(domain):
-    blocks = str(list(blockchain.chain))
-    for block in list(blocks):
-        print(block)
-        t = ''
-        # print(t+str(t.count(domain)))
-        if t.count(domain) is 0:
-            return True
-        else:
-            return False
+    tree_obj = op.Tree(blockchain.chain)
+    blocks=list(tree_obj.execute('$..transactions'))
+    blocks.pop(0)
+    for block in blocks:
+        try:    
+            if str(block['domain']) == str(domain):
+                return False
+
+        except:
+            print(end='')
+    return True
 
 
 @app.route('/reg', methods=['POST'])

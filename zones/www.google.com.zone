@@ -1,6 +1,6 @@
 {
 
-    "$origin": "google.com.",
+    "$origin": "www.google.com.",
 
     "$ttl": 3600,
 
