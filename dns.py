@@ -1,5 +1,5 @@
 import socket, glob, json
-import os
+import os,ipfsapi
 
 port = 53
 ip = '127.0.0.1'
@@ -10,14 +10,13 @@ sock.bind((ip, port))
 def load_zones():
 
     jsonzone = {}
-    zonefiles = glob.glob('*.zone')
+    zonefiles = glob.glob('zones/*.zone')
 
     for zone in zonefiles:
         with open(zone) as zonedata:
             data = json.load(zonedata)
             zonename = data["$origin"]
             jsonzone[zonename] = data
-    print(jsonzone)
 
     return jsonzone
 
@@ -94,8 +93,10 @@ def getzone(domain):
         x=zonedata[zone_name]
     except:
         QmHash=query(zone_name)
-        print(zone_name)
-        os.system("ipfs cat "+QmHash+" > "+zone_name+"zone")
+        api = ipfsapi.connect('127.0.0.1', 5001)
+        z=api.cat(QmHash)
+        with open(os.path.join(os.getcwd(),'zones',zone_name+'zone'), "w") as f:
+            f.write(z.decode("utf-8"))
         zonedata = load_zones()
         x=zonedata[zone_name]
     return x
@@ -183,6 +184,5 @@ def buildresponse(data):
 
 while 1:
     data, addr = sock.recvfrom(512)
-    print(addr,data)
     r = buildresponse(data)
     sock.sendto(r, addr)
