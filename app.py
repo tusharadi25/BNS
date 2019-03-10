@@ -89,14 +89,9 @@ class Blockchain:
         self.chain.append(block)
         return block
 
-    def new_transaction(self, sender, recipient, domain, zoneHash):
+    def new_transaction(self,transaction):
 
-        self.current_transactions.append({
-            'senderID': sender,
-            'buyerID': recipient,
-            'domain': domain,
-            'zoneHash': zoneHash,
-        })
+        self.current_transactions.append(transaction)
         return self.last_block['index'] + 1
 
     @property
@@ -131,14 +126,13 @@ def mine():
     # We run the proof of work algorithm to get the next proof...
     last_block = blockchain.last_block
     proof = blockchain.proof_of_work(last_block)
+    global Dp
+    Dp+=1
     ipfsid = api.id()['ID']
-    blockchain.new_transaction(
-        sender="0",
-        recipient=ipfsid,
-        domain='',
-        zoneHash='0000'
-    )
-
+    blockchain.new_transaction({
+        'miner':ipfsid,
+        'credits':Dp,
+    })
     # Forge the new Block by adding it to the chain
     previous_hash = h(last_block)
     block = blockchain.new_block(proof, previous_hash)
@@ -156,8 +150,12 @@ def mine():
 @app.route('/transactions/new', methods=['POST'])
 def new_transaction():
     values = request.get_json()
-    index = blockchain.new_transaction(
-        values['sender'], values['recipient'], values['domain'], values['zoneHash'])
+    index = blockchain.new_transaction({
+            'senderID':values['sender'],
+            'buyerID':values['recipient'],
+            'domain':values['domain'],
+            'zoneHash':values['zoneHash']
+        })
     response = {'message': f'Transaction will be added to Block {index}'}
     return jsonify(response), 201
 
@@ -173,10 +171,12 @@ def full_chain():
 
 @app.route('/me', methods=['GET'])
 def info():
+    chain=str(blockchain.chain)
+    dr=chain.count('domain')
     response = {
-        'id': "abcd",
-        'length': "abc",
-        'credits':Dp
+        'credits':Dp,
+        'pc':'Peers',
+        'dr':dr
     }
     return jsonify(response), 200
 
@@ -196,7 +196,6 @@ def register_nodes():
         _ = f.readline()
         for line in f:
             line.rstrip("\n")
-            print(line)
             li = api.dht_findpeer(line[:-1])
             li = li['Responses'][0]['Addrs']
             for ele in li:
@@ -214,7 +213,6 @@ def register_nodes():
     for i in lis:
         i = "http://"+i+":5000"
     nodes = lis
-    print(nodes)
     if nodes is None:
         return "Error: Please supply a valid list of nodes", 400
 
@@ -261,8 +259,20 @@ def page_not_found(e):
     # note that we set the 404 status explicitly
     return send_file(os.path.join(p+"/assets", "404.jpg")), 404
 
+def query(domain):
+    blocks=str(list(blockchain.chain))
+    for block in list(blocks):
+        print(block)
+        t=''
+        #print(t+str(t.count(domain)))
+        if t.count(domain) is 0:
+            return True
+        else:
+            return False
+
 @app.route('/reg',methods=['POST'])
 def reg():
+    global Dp
     if request.method == 'POST':
         values = dict(request.form)
         domain=values['Domain']
@@ -271,10 +281,12 @@ def reg():
             values['name']=zf.filename
             zf.save(os.path.join( 'zones', secure_filename(zf.filename)))
             resp=api.add(os.path.join( 'zones', secure_filename(zf.filename)))
-            index=blockchain.new_transaction('QmUuFdREXrk2TMbRS8w7MpHWKMj3cnFEH8HVKhxXrT9D7R',
-                api.id()['ID'],
-                domain,
-                resp['Hash'])
+            index=blockchain.new_transaction({
+                'buyerID':api.id()['ID'],
+                'domain':domain,
+                'zoneHash':resp['Hash']
+            })
+            Dp-=1
             return "Domain: "+domain+" Is Registered in BNS will be added to Block "+str(index),200
         else:
             return "Domain Already exist",200
@@ -282,6 +294,7 @@ def reg():
 
 @app.route('/trans',methods=['POST'])
 def trans():
+    global Dp
     if request.method == 'POST':
         values = dict(request.form)
         domain=values['Domain']
@@ -290,23 +303,17 @@ def trans():
             values['name']=zf.filename
             zf.save(os.path.join( 'zones', secure_filename(zf.filename)))
             resp=api.add(os.path.join( 'zones', secure_filename(zf.filename)))
-            index=blockchain.new_transaction(values['sender'],
-                values['reciver'],
-                domain,
-                resp['Hash'])
+            index=blockchain.new_transaction({
+                'senderID':values['sender'],
+                'buyerID':values['reciver'],
+                'domain': domain,
+                'zoneHash':resp['Hash']
+            })
+            Dp-=1
             return "Domain: "+domain+" Is Registered in BNS will be added to Block "+str(index),200
         else:
             return "Domain Already exist",200
 
-
-def query(domain):
-    print(domain)
-    for block in blockchain.chain:
-        t=block['transactions']
-        if str(t).find(domain) is -1:
-            return True
-        else:
-            return False
 
 
 @app.route("/site-map")

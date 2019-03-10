@@ -3,7 +3,7 @@
     <head>
         <title>Dashboard</title>
         <link rel="icon" href="/assets/favicon.ico" type="image/icon" />
-        <script src="https://unpkg.com/ipfs-http-client/dist/index.min.js"></script>
+        <script src="/assets/index.min.js"></script>
         <script type="text/javascript">
             const ipfs = window.IpfsHttpClient('localhost', '5001');
             console.log(ipfs)
@@ -15,10 +15,15 @@
                 console.log("IPFS Offline");
             });
 
-            var request = new Request('http://localhost:5000/me');
-            fetch(request).then((response)=>{
-                document.getElementById("dp").innerHTML="Domain points: "+response;
-                console.log(response)
+
+            fetch('http://localhost:5000/me')
+            .then(function(response) {
+                return response.json();
+            }).then(function(resp) {
+                console.log(resp);
+                document.getElementById("dp").innerHTML="Domain points: "+resp['credits'];
+                document.getElementById("peer").innerHTML=resp['pc'];
+                document.getElementById("domain").innerHTML=resp['dr'];
             });
 
 
@@ -111,7 +116,7 @@
             </form>
         </table>
         </div>
-        <div style="position:absolute; top:200px; right:530px;" class="frame">
+        <div style="position:absolute; top:200px; right:515px;" class="frame">
             <h4>Domain Transfer</h4>
             <table>
             <form name="Trans" onsubmit="return  trans()" method="post" action="/trans" enctype = "multipart/form-data">

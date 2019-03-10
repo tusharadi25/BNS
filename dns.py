@@ -84,7 +84,12 @@ def getzone(domain):
     global zonedata
 
     zone_name = '.'.join(domain)
-    return zonedata[zone_name]
+    try:
+        x=zonedata[zone_name]
+    except:
+        zonedata = load_zones()
+        x=zonedata['www.google.com.']
+    return x
 
 def getrecs(data):
     domain, questiontype = getquestiondomain(data)

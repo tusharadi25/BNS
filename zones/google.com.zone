@@ -1,5 +1,5 @@
 {
-    "$origin": "google.com.",
+    "$origin": "www.google.com.",
     "$ttl": 3600,
     "soa": {
         "mname": "ns1.google.com.",
