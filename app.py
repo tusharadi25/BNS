@@ -177,7 +177,7 @@ def info():
     dr = chain.count('domain')
     response = {
         'credits': Dp,
-        'pc': 'Peers',
+        'pc': len(blockchain.nodes),
         'dr': dr
     }
     return jsonify(response), 200
@@ -187,7 +187,6 @@ def info():
 def register_nodes():
     res = api.add('conn')
     h = res['Hash']
-
     def find():
         os.system("ipfs dht findprovs "+h+"> peers")
     t1 = threading.Thread(target=find)
@@ -330,7 +329,7 @@ def site_map():
             temp.pop("OPTIONS")
             temp.pop("HEAD")
         except:
-            x = ''
+            print()
         resp[str(rule)] = temp
     return jsonify(resp), 200
 

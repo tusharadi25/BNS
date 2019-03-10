@@ -324,6 +324,10 @@
                     &nbsp;
 
                     <button onclick="mine()">Mine</button>
+                    
+                    &nbsp;
+
+                    <button onclick="nodes()">Register New Nodes</button>
 
                     <br>
                     <h4 id="resp"></h4>
@@ -355,6 +359,18 @@
                         console.log(resp['message']);
                         document.getElementById('resp').innerHTML=resp['message'];
                     });
+                    
+                }
+
+                function nodes() {         
+                    fetch('http://localhost:5000/nodes/register')
+                    .then(function(response) {
+                        return response.json();
+                    }).then(function(resp) {
+                        console.log(resp['message']);
+                        document.getElementById('resp').innerHTML=resp['message'];
+                    });
+                    
                 }
                     </script>
                 </div>

@@ -1,4 +1,5 @@
 import socket, glob, json
+import os
 
 port = 53
 ip = '127.0.0.1'
@@ -9,13 +10,14 @@ sock.bind((ip, port))
 def load_zones():
 
     jsonzone = {}
-    zonefiles = glob.glob('zones/*.zone')
+    zonefiles = glob.glob('*.zone')
 
     for zone in zonefiles:
         with open(zone) as zonedata:
             data = json.load(zonedata)
             zonename = data["$origin"]
             jsonzone[zonename] = data
+    print(jsonzone)
 
     return jsonzone
 
@@ -80,6 +82,10 @@ def getquestiondomain(data):
 
     return (domainparts, questiontype)
 
+def query(domain):
+    hash="QmWhxg9eRYPpE3biJVUxM9f67rAk8CALiwnjxkVFTLv5Vt"
+    return hash
+
 def getzone(domain):
     global zonedata
 
@@ -87,8 +93,11 @@ def getzone(domain):
     try:
         x=zonedata[zone_name]
     except:
+        QmHash=query(zone_name)
+        print(zone_name)
+        os.system("ipfs cat "+QmHash+" > "+zone_name+"zone")
         zonedata = load_zones()
-        x=zonedata['www.google.com.']
+        x=zonedata[zone_name]
     return x
 
 def getrecs(data):
