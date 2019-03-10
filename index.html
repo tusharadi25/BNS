@@ -1,11 +1,18 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <title>Dashboard</title>
-        <link rel="icon" href="/assets/favicon.ico" type="image/icon" />
-        <script src="/assets/index.min.js"></script>
-        <script type="text/javascript">
-            const ipfs = window.IpfsHttpClient('localhost', '5001');
+<head>
+    <title>Dashboard</title>
+
+    <link
+        rel="icon"
+        href="/assets/favicon.ico"
+        type="image/icon"
+    ></link>
+
+    <script src="/assets/index.min.js"></script>
+
+    <script type="text/javascript">
+        const ipfs = window.IpfsHttpClient('localhost', '5001');
             console.log(ipfs)
             ipfs.version().then((res) => {
                 document.getElementById("status").src="/assets/online.png";
@@ -60,8 +67,9 @@
                     }
                 return true;
             }
-        </script>
-        <style>
+    </script>
+
+    <style>
             .frame{
                 background-color:rgba(20,20,30,0.5);
                 padding: 5px;
@@ -87,85 +95,271 @@
                 filter: blur(4px);
                 z-index:-10;
             }
-        </style>
-    </head>
-    <body style="background-attachment:fixed;background-size:cover;margin:0; padding:0;">
-        <div class="wrapper">
-            <video autoplay muted loop id="myVideo" id="video-background">
-                    <source src="assets/bg.mp4" type="video/mp4">
-            </video>
+    </style>
+</head>
+
+<body style="background-attachment:fixed;background-size:cover;margin:0; padding:0;">
+    <div class="wrapper">
+        <video
+            autoplay="autoplay"
+            muted="muted"
+            loop="loop"
+            id="video-background"
+        >
+            <source
+                src="assets/bg.mp4"
+                type="video/mp4"
+            ></source>
+        </video>
+    </div>
+
+    <font color="white">
+        <div style="position:absolute;top:15px;left:20px;text-align:centre;">
+            <img
+                width="150"
+                style="border-radius: 10px;"
+                alt="logo"
+                src="/assets/logo.jpg"
+            >
         </div>
-        <font color="white">
-		<div style="position:absolute;top:15px;left:20px;text-align:centre;"><img width="150" style="border-radius: 10px;" alt="logo" src="/assets/logo.jpg" /></div>
+
         <p style="position:absolute;top:10px;left:170px;text-align:centre;font-size:50px">&nbsp;Blockchain Name Service</p>
-        <div style="position:absolute; top:200px; left:30px;text-decoration-color: white;width:350" class="frame">
+
+        <div
+            style="position:absolute; top:200px; left:30px;text-decoration-color: white;width:350"
+            class="frame"
+        >
             <h4>Registration form</h4>
+
             <table>
-            <form name="Reg" onsubmit="return reg()" method="POST" action="/reg" enctype = "multipart/form-data">
-                <tr>
-                    <td>Domain Name :&nbsp;</td>
-                    <td><input type="text" name="Domain" /></td>
-                </tr>
-                <tr>
-                    <td>Zonefile :</td>
-                    <td><input  type="file" name="Zonefile"/></td>
-                </tr>
-                <tr>
-                    <td></td><td><input type="submit" value="Register"/></td>
-                </tr>
-            </form>
-        </table>
+                <form
+                    name="Reg"
+                    onsubmit="return reg()"
+                    method="POST"
+                    action="/reg"
+                    enctype="multipart/form-data"
+                >
+                    <tr>
+                        <td>Domain Name :&nbsp;</td>
+
+                        <td>
+                            <input
+                                type="text"
+                                name="Domain"
+                            ></input>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>Zonefile :</td>
+
+                        <td>
+                            <input
+                                type="file"
+                                name="Zonefile"
+                            ></input>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td></td>
+
+                        <td>
+                            <input
+                                type="submit"
+                                value="Register"
+                            ></input>
+                        </td>
+                    </tr>
+                </form>
+            </table>
         </div>
-        <div style="position:absolute; top:200px; right:515px;" class="frame">
+
+        <div
+            style="position:absolute; top:200px; right:515px;"
+            class="frame"
+        >
             <h4>Domain Transfer</h4>
+
             <table>
-            <form name="Trans" onsubmit="return  trans()" method="post" action="/trans" enctype = "multipart/form-data">
-               <tr>
-                   <td> Domain Name : &nbsp;</td>
-                   <td><input type="text" name="Domain" /></td>
-               </tr>
-               <tr>
-                    <td>Sender :</td>
-                    <td><input type="text" name="sender" /></td>
-               </tr>
-               <tr>
-                    <td>Reciver :</td><td><input name="reciver"/></td>    
-               </tr>
-               <tr>
-                    <td>Zonefile :</td>
-                    <td><input  type="file" name="Zonefile"/></td>
-               </tr>
-               <tr>
-                    <td></td><td><input type="submit" value="Transfer"/></td>
-                </tr>
-            </form>
-        </table>
+                <form
+                    name="Trans"
+                    onsubmit="return  trans()"
+                    method="post"
+                    action="/trans"
+                    enctype="multipart/form-data"
+                >
+                    <tr>
+                        <td>Domain Name : &nbsp;</td>
+
+                        <td>
+                            <input
+                                type="text"
+                                name="Domain"
+                            ></input>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>Sender :</td>
+
+                        <td>
+                            <input
+                                type="text"
+                                name="sender"
+                            ></input>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>Reciver :</td>
+
+                        <td>
+                            <input name="reciver"></input>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>Zonefile :</td>
+
+                        <td>
+                            <input
+                                type="file"
+                                name="Zonefile"
+                            ></input>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td></td>
+
+                        <td>
+                            <input
+                                type="submit"
+                                value="Transfer"
+                            ></input>
+                        </td>
+                    </tr>
+                </form>
+            </table>
         </div>
-        <div style="position:absolute; top:200px; right:100px;word-wrap: break-word;" class="frame">
+
+        <div
+            style="position:absolute; top:200px; right:100px;word-wrap: break-word;"
+            class="frame"
+        >
             <h4>Basic Info</h4>
-            <table style>
+
+            <table style="style">
                 <tr>
                     <td>Node ID : &nbsp;</td>
-                    <td><div style="width:200px;word-wrap:break-word;word-spacing:0px;" id="id" ></div></td>
+
+                    <td>
+                        <div
+                            style="width:200px;word-wrap:break-word;word-spacing:0px;"
+                            id="id"
+                        ></div>
+                    </td>
                 </tr>
+
                 <tr>
                     <td>IPFS version : &nbsp;</td>
-                    <td><div style="width:200px;word-wrap:break-word;word-spacing:0px;" id="version" ></div></td>
+
+                    <td>
+                        <div
+                            style="width:200px;word-wrap:break-word;word-spacing:0px;"
+                            id="version"
+                        ></div>
+                    </td>
                 </tr>
+
                 <tr>
                     <td>Peers Connected : &nbsp;</td>
-                    <td><div style="width:200px;word-wrap:break-word;word-spacing:0px;" id="peer" ></div></td>
+
+                    <td>
+                        <div
+                            style="width:200px;word-wrap:break-word;word-spacing:0px;"
+                            id="peer"
+                        ></div>
+                    </td>
                 </tr>
+
                 <tr>
                     <td>Domains Registered : &nbsp;</td>
-                    <td><div style="width:200px;word-wrap:break-word;word-spacing:0px;" id="domain" ></div></td>
+
+                    <td>
+                        <div
+                            style="width:200px;word-wrap:break-word;word-spacing:0px;"
+                            id="domain"
+                        ></div>
+                    </td>
                 </tr>
             </table>
         </div>
-        <p style="position:absolute; top:10px; left:1000px;" id="dp" >Domain points: 0</p>
-        <p style="position:absolute; top:10px; right:15px;" ><img id="status" width="50" alt="status" src="/assets/offline.png"></img><br>IPFS<p>
-        </font>
-        <script>
-        </script>
-    </body>
+
+        <p
+            style="position:absolute; top:10px; left:1000px;"
+            id="dp"
+        >Domain points: 0</p>
+
+        <p style="position:absolute; top:10px; right:15px;">
+            <img
+                id="status"
+                width="50"
+                alt="status"
+                src="/assets/offline.png"
+            >
+
+            <br>
+            IPFS
+
+            <p>
+                <div style="position:absolute; bottom:100px;left:20px;">
+                    <button onclick="save()">Save</button>
+
+                    &nbsp;
+
+                    <button onclick="resolve()">Resolve Chain</button>
+
+                    &nbsp;
+
+                    <button onclick="mine()">Mine</button>
+
+                    <br>
+                    <h4 id="resp"></h4>
+
+                    <script>
+                        function save() {         
+                    fetch('http://localhost:5000/save')
+                    .then(function(response) {
+                        return response.json();
+                    }).then(function(resp) {
+                        console.log(resp['data']);
+                        document.getElementById('resp').innerHTML=resp['message'];
+                    });
+                }
+                function resolve() {         
+                    fetch('http://localhost:5000/nodes/resolve')
+                    .then(function(response) {
+                        return response.json();
+                    }).then(function(resp) {
+                        console.log(resp['message']);
+                        document.getElementById('resp').innerHTML=resp['message'];
+                    });
+                }
+                function mine() {         
+                    fetch('http://localhost:5000/mine')
+                    .then(function(response) {
+                        return response.json();
+                    }).then(function(resp) {
+                        console.log(resp['message']);
+                        document.getElementById('resp').innerHTML=resp['message'];
+                    });
+                }
+                    </script>
+                </div>
+            </p>
+        </p>
+    </font>
+</body>
 </html>
