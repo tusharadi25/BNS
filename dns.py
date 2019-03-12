@@ -210,7 +210,12 @@ def buildresponse(data):
 
     return dnsheader + dnsquestion + dnsbody
 
+import sys, signal
+def signal_handler(signal, frame):
+    print("\nprogram exiting gracefully")
+    sys.exit(0)
 
+signal.signal(signal.SIGINT, signal_handler)
 while 1:
     data, addr = sock.recvfrom(512)
     r = buildresponse(data)

@@ -11,8 +11,22 @@ from flask import (Flask, Response, jsonify, request, send_file,
                    send_from_directory)
 from werkzeug import secure_filename
 import objectpath as op
-
-
+from pyfiglet import Figlet
+f = Figlet(font='slant')
+print(f.renderText(' BNS'))
+api=[]
+def daemon():
+    global api
+    os.system("ipfs daemon")
+def _dns():
+    time.sleep(4)
+    print("DNS is Started")
+    os.system("python dns.py")
+ipfsdaemon = threading.Thread(target=daemon)
+ipfsdaemon.start()
+dns = threading.Thread(target=_dns)
+dns.start()
+time.sleep(2)
 def h(block):
     block_string = json.dumps(block, sort_keys=True).encode()
     return hashlib.sha256(block_string).hexdigest()
@@ -115,8 +129,9 @@ with open("chain.json", "r") as read_file:
     data = json.load(read_file)
 app = Flask(__name__, static_folder=os.getcwd())
 p = os.getcwd()
-blockchain = Blockchain(data)
 api = ipfsapi.connect('127.0.0.1', 5001)
+res = api.add('conn')
+blockchain = Blockchain(data)
 Dp = 5
 
 
