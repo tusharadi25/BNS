@@ -39,7 +39,6 @@ class Blockchain:
     def valid_chain(self, chain):
         last_block = chain[0]
         current_index = 1
-
         while current_index < len(chain):
             block = chain[current_index]
             last_block_hash = h(last_block)
@@ -55,7 +54,6 @@ class Blockchain:
 
         neighbours = self.nodes
         new_chain = None
-
         # We're only looking for chains longer than ours
         max_length = len(self.chain)
         print(neighbours)
@@ -70,12 +68,10 @@ class Blockchain:
                 if length > max_length and self.valid_chain(chain):
                     max_length = length
                     new_chain = chain
-
         # Replace our chain if we discovered a new, valid chain longer than ours
         if new_chain:
             self.chain = new_chain
             return True
-
         return False
 
     def new_block(self, proof, prev_hash):
@@ -126,17 +122,15 @@ Dp = 5
 
 @app.route('/mine', methods=['GET'])
 def mine():
-    # We run the proof of work algorithm to get the next proof...
+    global Dp
     last_block = blockchain.last_block
     proof = blockchain.proof_of_work(last_block)
-    global Dp
     Dp += 1
     ipfsid = api.id()['ID']
     blockchain.new_transaction({
         'miner': ipfsid,
         'credits': Dp,
     })
-    # Forge the new Block by adding it to the chain
     previous_hash = h(last_block)
     block = blockchain.new_block(proof, previous_hash)
 
@@ -261,7 +255,6 @@ def get_resource(path):
 
 @app.errorhandler(404)
 def page_not_found(e):
-    # note that we set the 404 status explicitly
     return send_file(os.path.join(p+"/assets", "404.jpg")), 404
 
 
@@ -273,7 +266,6 @@ def query(domain):
         try:    
             if str(block['domain']) == str(domain):
                 return False
-
         except:
             print(end='')
     return True

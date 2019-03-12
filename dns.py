@@ -92,7 +92,7 @@ def getquestiondomain(data):
 
 
 def query(domain):
-    hash = "QmWhxg9eRYPpE3biJVUxM9f67rAk8CALiwnjxkVFTLv5Vt"
+    hash = "QmQNQPRJhu4sb6BTE1Y6YNxH9q8W3Dwb6rwbUNVc67Khb9"
     response = requests.get('http://localhost:5000/chain')
     response = response.content.decode()
     response = eval(response)

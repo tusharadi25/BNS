@@ -1,1 +1,1 @@
-[]
+[{"index": 1, "timestamp": 1552402243.3063307, "transactions": [], "proof": 100, "previous_hash": "0"}, {"index": 2, "timestamp": 1552402536.0260923, "transactions": [{"buyerID": "QmUuFdREXrk2TMbRS8w7MpHWKMj3cnFEH8HVKhxXrT9D7R", "domain": "www.google.com", "zoneHash": "QmbxUemS2h3adBKbwCjMDivthitKSKoZBk8wd7Y5w2p1dh"}, {"miner": "QmUuFdREXrk2TMbRS8w7MpHWKMj3cnFEH8HVKhxXrT9D7R", "credits": 5}], "proof": 15370, "previous_hash": "a23ee85e8fea240f8f60c9eb6506cecb674f7791a6736609138df6b920edd0a5"}]

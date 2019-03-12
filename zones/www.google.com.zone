@@ -1,52 +1,26 @@
 {
-
     "$origin": "www.google.com.",
-
     "$ttl": 3600,
-
     "soa": {
-
         "mname": "ns1.google.com.",
-
         "rname": "dns-admin.google.com.",
-
         "serial": "{time}",
-
         "refresh": 900,
-
         "retry": 900,
-
         "expire": 900,
-
         "minimum": 60
-
     },
-
     "ns": [
-
         { "host": "ns1.google.com." },
-
         { "host": "ns2.google.com." },
-
         { "host": "ns3.google.com." },
-
         { "host": "ns4.google.com." }
-
     ],
-
     "a": [
-
         { "name": "@", "ttl": 400, "value": "216.58.196.78" },
-
         { "name": "@", "ttl": 400, "value": "64.233.185.100" },
-
         { "name": "@", "ttl": 400, "value": "64.233.185.138" },
-
         { "name": "@", "ttl": 400, "value": "64.233.185.139" },
-
         { "name": "@", "ttl": 400, "value": "64.233.185.102" }
-
     ]
-
 }
-
