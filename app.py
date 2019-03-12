@@ -16,7 +16,6 @@ f = Figlet(font='slant')
 print(f.renderText(' BNS'))
 api=[]
 def daemon():
-    global api
     os.system("ipfs daemon")
 def _dns():
     time.sleep(4)
@@ -27,6 +26,13 @@ ipfsdaemon.start()
 dns = threading.Thread(target=_dns)
 dns.start()
 time.sleep(2)
+try:
+    api = ipfsapi.connect('127.0.0.1', 5001)
+except:
+    time.sleep(2)
+    api = ipfsapi.connect('127.0.0.1', 5001)
+res = api.add('conn')
+
 def h(block):
     block_string = json.dumps(block, sort_keys=True).encode()
     return hashlib.sha256(block_string).hexdigest()
@@ -129,8 +135,6 @@ with open("chain.json", "r") as read_file:
     data = json.load(read_file)
 app = Flask(__name__, static_folder=os.getcwd())
 p = os.getcwd()
-api = ipfsapi.connect('127.0.0.1', 5001)
-res = api.add('conn')
 blockchain = Blockchain(data)
 Dp = 5
 
