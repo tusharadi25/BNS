@@ -1,0 +1,24 @@
+{
+    "$origin": "github.com.",
+    "$ttl": 3600,
+    "soa": {
+        "mname": "ns1.github.com.",
+        "rname": "admin.github.com.",
+        "serial": "{time}",
+        "refresh": 3600,
+        "retry": 600,
+        "expire": 604800,
+        "minimum": 86400
+    },
+    "ns": [
+        { "host": "ns1.github.com." },
+        { "host": "ns2.github.com." }
+    ],
+    "a": [
+        { "name": "@", "ttl": 400, "value": "208.73.210.217" },
+        { "name": "@", "ttl": 400, "value": "208.73.210.202" },
+        { "name": "@", "ttl": 400, "value": "208.73.211.177" },
+        { "name": "@", "ttl": 400, "value": "208.73.211.165" }
+       
+    ]
+}

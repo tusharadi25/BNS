@@ -1,0 +1,20 @@
+{
+    "$origin": "www.wikipedia.org.",
+    "$ttl": 3600,
+    "soa": {
+        "mname": "ns1.wikipedia.org.",
+        "rname": "admin.wikipedia.org.",
+        "serial": "{time}",
+        "refresh": 3600,
+        "retry": 600,
+        "expire": 604800,
+        "minimum": 86400
+    },
+    "ns": [
+        { "host": "ns1.wikipedia.org." },
+        { "host": "ns2.wikipedia.org." }
+    ],
+    "a": [
+        { "name": "@", "ttl": 400, "value": "103.102.166.224" }
+    ]
+}

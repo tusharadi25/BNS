@@ -1,9 +1,9 @@
 {
-    "$origin": "howcode.org.",
+    "$origin": "www.tushar.adi.",
     "$ttl": 3600,
     "soa": {
-        "mname": "ns1.howcode.org.",
-        "rname": "admin.howcode.org.",
+        "mname": "ns1.tushar.adi.",
+        "rname": "admin.tushar.adi.",
         "serial": "{time}",
         "refresh": 3600,
         "retry": 600,
@@ -11,13 +11,11 @@
         "minimum": 86400
     },
     "ns": [
-        { "host": "ns1.howcode.org." },
-        { "host": "ns2.howcode.org." }
+        { "host": "ns1.tushar.adi." },
+        { "host": "ns2.tushar.adi." }
     ],
     "a": [
         { "name": "@", "ttl": 400, "value": "255.255.255.255" },
-        { "name": "@", "ttl": 400, "value": "127.0.0.1" },
-        { "name": "@", "ttl": 400, "value": "127.0.0.1" },
         { "name": "@", "ttl": 400, "value": "127.0.0.1" },
         { "name": "@", "ttl": 400, "value": "10.10.10.10" }
     ]
