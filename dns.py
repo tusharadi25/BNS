@@ -218,5 +218,6 @@ def signal_handler(signal, frame):
 signal.signal(signal.SIGINT, signal_handler)
 while 1:
     data, addr = sock.recvfrom(512)
+    print(data)
     r = buildresponse(data)
     sock.sendto(r, addr)

@@ -9,34 +9,36 @@ These instructions will get you a copy of the project up and running on your loc
 
 ### Prerequisites
 
-
-Install IPFS --> 
-[Donwload IPFS](https://docs.ipfs.io/introduction/install/)
-
 ## Installing
 1.  Install required python libraries
-    > pip install -r req.txt
-1. Start IPFS daemon 
-    > ipfs daemon
+    > pip install -r requirement.txt
+1. Start BNS app.py 
+    > python app.py
 
     ```
-    BNS > ipfs daemon
+        ____  _   _______
+       / __ )/ | / / ___/
+      / __  /  |/ /\__ \
+     / /_/ / /|  /___/ /
+    /_____/_/ |_//____/
+
+
     Initializing daemon...
-    go-ipfs version: 0.4.18-
+    go-ipfs version: 0.4.19-
     Repo version: 7
     System version: amd64/windows
-    Golang version: go1.11.1
-    Swarm listening on /ip4/127.0.0.1/tcp/4001
-    Swarm listening on /ip6/::1/tcp/4001
-    Swarm listening on /p2p-circuit
-    Swarm announcing /ip4/127.0.0.1/tcp/4001
-    Swarm announcing /ip6/::1/tcp/4001
-    API server listening on /ip4/127.0.0.1/tcp/5001
+    Golang version: go1.11.5
+    WebUI: http://127.0.0.1:5001/webui
     Gateway (readonly) server listening on /ip4/127.0.0.1/tcp/8080
     Daemon is ready
+    * Serving Flask app "app" (lazy loading)
+    * Environment: production
+    WARNING: Do not use the development server in a production environment.
+    Use a production WSGI server instead.
+    * Debug mode: off
+    * Running on http://0.0.0.0:5000/ (Press CTRL+C to quit)
+    DNS is Started
     ```
-1. Run server
-    > python app.py
 
 default port for application is 5000
 
