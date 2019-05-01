@@ -36,7 +36,10 @@
 
             ipfs.id().then((res) => {
                     document.getElementById("id").innerHTML=res["id"];
+                    document.getElementById("s").value =res["id"];
             });
+            
+            
             function reg(){
                 var x = document.forms["Reg"]["Domain"].value;
                 var y = document.forms["Reg"]["Zonefile"].value;
@@ -207,6 +210,7 @@
                             <input
                                 type="text"
                                 name="sender"
+                                id="s"
                             ></input>
                         </td>
                     </tr>

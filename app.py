@@ -318,7 +318,7 @@ def trans():
     if request.method == 'POST':
         values = dict(request.form)
         domain = values['Domain']
-        if query(domain) is True:
+        if query(domain) is False:
             zf = request.files['Zonefile']
             values['name'] = zf.filename
             zf.save(os.path.join('zones', secure_filename(zf.filename)))
