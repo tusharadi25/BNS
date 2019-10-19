@@ -72,10 +72,9 @@ default port for application is 5000
 
 We use [GitHub](http://github.com/) for versioning. For the versions available, see the [tags on this repository](https://github.com/tusharadi25/BNS/tags). 
 
-## Authors
+## Author
 
 * **Tushar Adivarekar** - *Initial work* - [tusharadi25](https://github.com/tusharadi25)
-* **Disha Hegde** - *Initial work* 
 
 ## Guide
 
