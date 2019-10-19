@@ -55,7 +55,6 @@ We use [GitHub](http://github.com/) for versioning. For the versions available, 
 ## Authors
 
 * **Tushar Adivarekar** - *Initial work* - [tusharadi25](https://github.com/tusharadi25)
-* **Disha Hegde** - *Initial work* 
 
 ## Guide
 
